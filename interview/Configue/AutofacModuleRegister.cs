@@ -1,4 +1,5 @@
 using Autofac;
+using interview.Repository.Interface;
 
 namespace interview.Configue;
 
@@ -14,6 +15,6 @@ public class AutofacModuleRegister : Module
             .Where(t => t.Name.EndsWith("Repository"))
             .AsImplementedInterfaces();
 
-        // builder.RegisterDecorator<CachedEmployeeRepository, IEmployeeRepository>();
+        builder.RegisterDecorator<CachedUserRepository, IUserRepository>();
     }
 }
