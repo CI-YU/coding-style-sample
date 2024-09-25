@@ -4,6 +4,7 @@ using Autofac.Extensions.DependencyInjection;
 using interview.Configue;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.ResponseCompression;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,11 @@ builder.Services.AddSwaggerGen();
 #region Autofac
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new AutofacModuleRegister()));
+#endregion
+
+#region Redis
+var RedisHost = builder.Configuration["ConnectionString:RedisHost"];
+builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(RedisHost));
 #endregion
 
 #region compression
