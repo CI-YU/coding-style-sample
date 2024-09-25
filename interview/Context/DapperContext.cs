@@ -25,7 +25,7 @@ public class DapperContext
     }
     public class ConnectionConfig
     {
-        public string Tutorial { get; set; }
-        public string Interview { get; set; }
+        public required string Tutorial { get; set; }
+        public required string Interview { get; set; }
     }
 }

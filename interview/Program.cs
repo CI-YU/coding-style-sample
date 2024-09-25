@@ -15,6 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
+
 #region Autofac
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new AutofacModuleRegister()));
@@ -61,6 +62,7 @@ builder.Services.AddApiVersioning(opt =>
                                                 new MediaTypeApiVersionReader("x-api-version"));
 });
 #endregion
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
