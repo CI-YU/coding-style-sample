@@ -2,9 +2,11 @@ using System.IO.Compression;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using interview.Configue;
+using interview.Context;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.ResponseCompression;
 using StackExchange.Redis;
+using static interview.Context.DapperContext;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,13 @@ builder.Services.AddSwaggerGen();
 #region Autofac
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new AutofacModuleRegister()));
+#endregion
+
+#region DB Connection
+var connectionConfig = new ConnectionConfig();
+builder.Configuration.GetSection("ConnectionString").Bind(connectionConfig);
+builder.Services.AddSingleton(new DapperContext(connectionConfig));
+builder.Services.AddSingleton(connectionConfig);
 #endregion
 
 #region Redis
